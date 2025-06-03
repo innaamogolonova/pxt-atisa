@@ -1,0 +1,45 @@
+# Hero Banner
+
+Here are some cool activities to get you started with your @boardname@!
+
+## Intro Content
+
+### ~ codecard
+
+- name: Test 1
+- description: This links to a url
+- imageUrl: /static/herogallery/picture2.png
+- url: https://www.microsoft.com/en-us/makecode
+- cardType: link
+
+---
+
+- name: Test 2
+- description: This links to a youtube playlist
+- imageUrl: /static/herogallery/picture3.png
+- youTubePlaylistId: PLMMBk9hE-SeqDYtw9pGNPsQ10V_EGMyGe
+
+---
+
+- name: Test 3
+- description: This links to a tutorial
+- imageUrl: /static/herogallery/picture4.png
+- url: /projects/analog-io/blink-to-light
+- cardType: tutorial
+
+---
+
+- name: Test 4
+- description: This links to another url
+- imageUrl: /static/herogallery/picture5.png
+- url: https://maker.makecode.com/
+- cardType: link
+
+---
+
+- name: Test 5
+- description: This links to a youtube video
+- imageUrl: /static/herogallery/picture6.png
+- youTubeId: qqBmvHD5bCw
+
+### ~
