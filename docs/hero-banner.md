@@ -22,8 +22,8 @@ Here are some cool activities to get you started with your @boardname@!
 ---
 
 - name: Test 3
-- description: This links to a tutorial
-- imageUrl: /static/herogallery/picture4.png
+- description: Testing if works with .gif
+- imageUrl: /static/herogallery/test1.gif
 - url: /projects/analog-io/blink-to-light
 - cardType: tutorial
 
