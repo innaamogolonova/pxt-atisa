@@ -441,7 +441,7 @@
         "betaUrl": "https://github.com/microsoft/pxt-maker",
         "boardName": "board",
         "homeScreenHero": {
-            "imageUrl": "./static/herogallery/picture1.png",
+            "imageUrl": "./static/herogallery/placeholder1.png",
             "name": "Flashing Heart",
             "url": "/projects/digital-io/blinky",
             "description": "New? Start here!",
