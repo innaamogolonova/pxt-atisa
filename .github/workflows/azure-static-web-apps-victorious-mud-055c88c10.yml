@@ -23,7 +23,6 @@ jobs:
           submodules: true
           lfs: false
 
-      # (keep OIDC steps you already had)
       - name: Install OIDC Client from Core Package
         run: npm install @actions/core@1.6.0 @actions/http-client
 
@@ -36,47 +35,67 @@ jobs:
                return await coredemo.getIDToken()
            result-encoding: string
 
-      # --- Build your PXT target (using your forks) ---
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # --- Clone your forks ---
       - name: Clone PXT forks
         run: |
           git clone https://github.com/innaamogolonova/pxt
           git clone https://github.com/innaamogolonova/pxt-library
 
+      # --- Build PXT core ---
       - name: Build PXT core
         run: |
           cd pxt
-          npm i
+          npm install
           npm run build
-          cd ..
-          cd pxt-library
-          npm i 
+          # prepare a global link for the package named in pxt/package.json (usually "pxt-core")
+          npm link
           cd ..
 
+      # --- Prepare and globally link the library fork ---
+      - name: Prep pxt-library and link globally
+        run: |
+          cd pxt-library
+          npm install
+          # creates a global link for the package
+          npm link
+          cd ..
+
+      # --- Prepare target and link repos into node_modules ---
       - name: Prepare target and link repos
         run: |
+          # Install CLI (still needed to build static package)
           npm i -g pxt
-          pxt link ./pxt
-          pxt link ./pxt-library
-          rm -rf node_modules/pxt-core node_modules/pxt-library
-          npm i
 
+          # Ensure clean slate (ignore if not present)
+          rm -rf node_modules/pxt-core || true
+          rm -rf node_modules/pxt-library || true
+
+          # Make sure node_modules exists before linking
+          npm install
+
+          # Link by package names created above
+          # pxt/package.json name is typically "pxt-core"
+          npm link pxt-core || true
+          npm link pxt-library || true
+
+      # --- Build static site output ---
       - name: Produce static site
-        run: pxt staticpkg --output built/packaged
+        run: npx pxt staticpkg --output built/packaged
 
-      # --- Deploy the built static files ---
+      # --- Deploy to Azure Static Web Apps ---
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_VICTORIOUS_MUD_055C88C10 }}
           action: "upload"
-          app_location: "."            # repo root
-          api_location: ""             # no API
+          app_location: "."
+          api_location: ""
           output_location: "built/packaged"
           github_id_token: ${{ steps.idtoken.outputs.result }}
 
@@ -90,4 +109,3 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           action: "close"
-
