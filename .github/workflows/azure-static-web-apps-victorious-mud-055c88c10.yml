@@ -50,8 +50,11 @@ jobs:
       - name: Build PXT core
         run: |
           cd pxt
-          npm ci
+          npm i
           npm run build
+          cd ..
+          cd pxt-library
+          npm i 
           cd ..
 
       - name: Prepare target and link repos
@@ -60,7 +63,7 @@ jobs:
           pxt link ./pxt
           pxt link ./pxt-library
           rm -rf node_modules/pxt-core node_modules/pxt-library
-          npm ci
+          npm i
 
       - name: Produce static site
         run: pxt staticpkg --output built/packaged
@@ -87,3 +90,4 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           action: "close"
+
